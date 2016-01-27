@@ -180,7 +180,6 @@ trait OrderAttribute
         $this->getDeclearButtonAttribute() .
         $this->getPortButtonAttribute().
         $this->getExportButtonAttribute().
-        $this->getReportButtonAttribute().
         $this->getDeleteButtonAttribute();
     }
 }
