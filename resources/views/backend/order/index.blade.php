@@ -110,11 +110,11 @@
     @section('after-scripts-end')
         @include('backend.includes.partials.jquerydatatable')
         {{--ajax form--}}
-        <script src="{{asset('js/backend/jquery.form.js')}}"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script>
         <script>
             $(function () {
                 var oTable = $('#article').DataTable({
-                    lengthMenu: [[500, 1000, 1500, -1], [500, 1000, 1500, "All"]],
+                    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                     searching: false,
                     processing: true,
                     serverSide: true,
@@ -200,13 +200,13 @@
                     e.preventDefault();
                 });
 
-                $("#search").click(function (){
-                    oTable.$('input[type="checkbox"]').each(function(){
-                        if(this.checked){
-                            alert(this.value);
-                        }
-                    });
-                });
+//                $("#search").click(function (){
+//                    oTable.$('input[type="checkbox"]').each(function(){
+//                        if(this.checked){
+//                            alert(this.value);
+//                        }
+//                    });
+//                });
                 // Handle click on "Select all" control
                 $('#example-select-all').on('click', function(){
                     // Check/uncheck all checkboxes in the table
@@ -267,10 +267,13 @@
                     }
                 });
                 $("#validation-errors").show();
+                window.setTimeout(function(){ } ,4000);
+                location.reload();
             }else{
                 //上传成功
                 sweetAlert('上传成功');
-                $('#import').modal('hide')
+                window.setTimeout(function(){ } ,3000);
+                location.reload();
             }
         }
         </script>

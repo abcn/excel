@@ -62,7 +62,7 @@ class OrderController extends Controller
         if($order->save()) {
             return redirect(route('admin.order.index'));
         }
-
+        return redirect()->back()->withFlashSuccess('创建失败');
     }
     public function edit($id)
     {
@@ -78,7 +78,17 @@ class OrderController extends Controller
         $order = $this->orders->findOrFail($id);
         $order->transport_type = $request->get('transport_type');
         $order->transport_number = $request->get('transport_number');
-        $order->save();
+        $order->order_number = $request->get('order_number');
+        $order->weight = $request->get('weight');
+        $order->declear_state = $request->get('declear_state');
+        $order->port_state = $request->get('port_state');
+        $order->inspection = $request->get('inspection');
+        $order->clearance = $request->get('clearance');
+        $order->express_id = $request->get('express_id');
+        if($order->save()) {
+            return redirect(route('admin.order.index'));
+        }
+        return redirect()->back()->withFlashSuccess('编辑失败');
     }
     //获取订单数据
     public function data()

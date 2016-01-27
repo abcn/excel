@@ -51,7 +51,11 @@
                         <option value="">{{ trans('labels.general.none') }}</option>
 
                         @foreach ($expresses as $express)
-                            <option value="{!! $express->id !!}">{!! $express->name !!}</option>
+                            @if($order->express->id == $express->id)
+                                <option value="{!! $express->id !!}" selected>{!! $express->name !!}</option>
+                            @else
+                                <option value="{!! $express->id !!}">{!! $express->name !!}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -68,16 +72,11 @@
                     {!! Form::text('company_area', $order->user->company_area, ['class' => 'form-control', 'placeholder' => '公司地区']) !!}
                 </div>
             </div>
+
             <div class="form-group">
-                {!! Form::label('express_name', '境内快递商', ['class' => 'col-lg-2 control-label']) !!}
+                {!! Form::label('tax', '税金金额', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                    {!! Form::text('express_name', $order->express->name, ['class' => 'form-control', 'placeholder' => '境内快递商']) !!}
-                </div>
-            </div>
-            <div class="form-group">
-                {!! Form::label('express_name', '税金金额', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                    {!! Form::text('express_name', $order->tax, ['class' => 'form-control', 'placeholder' => '税金金额']) !!}
+                    {!! Form::text('tax', $order->tax, ['class' => 'form-control', 'placeholder' => '税金金额']) !!}
                 </div>
             </div>
             <div class="form-group">
