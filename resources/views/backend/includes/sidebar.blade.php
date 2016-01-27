@@ -40,24 +40,6 @@
                     <a href="{!!url('admin/access/users')!!}"><span>{{ trans('menus.backend.access.title') }}</span></a>
                 </li>
             @endauth
-            {{--文章管理--}}
-            @permission('view-article-management')
-                <li class="{{ Active::pattern('admin/article*') }} treeview">
-                    <a href="#">
-                        <span>{{ trans('menus.backend.article.main') }}</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu {{ Active::pattern('admin/article*', 'menu-open') }}" style="display: none; {{ Active::pattern('admin/article*', 'display: block;') }}">
-                        <li class="{{ Active::pattern('admin/article') }}">
-                            <a href="{!!url('admin/article')!!}"><span>资讯管理</span></a>
-                        </li>
-                        <li class="{{ Active::pattern('admin/article/type') }}">
-                            <a href="{!!url('admin/article/type')!!}"><span>资讯类型管理</span></a>
-                        </li>
-                    </ul>
-                </li>
-            @endauth
-            {{--end 文章管理--}}
             {{--业务管理--}}
             @permission('view-order-management')
             <li class="{{ Active::pattern('admin/order*') }} treeview">

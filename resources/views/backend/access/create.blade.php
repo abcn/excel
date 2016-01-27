@@ -23,6 +23,18 @@
 
             <div class="box-body">
                 <div class="form-group">
+                    {!! Form::label('company', '公司名称', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::text('company', null, ['class' => 'form-control', 'placeholder' => '公司名称']) !!}
+                    </div>
+                </div><!--form control-->
+                <div class="form-group">
+                    {!! Form::label('company_area', '公司区域', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::text('company_area', null, ['class' => 'form-control', 'placeholder' => '公司区域']) !!}
+                    </div>
+                </div><!--form control-->
+                <div class="form-group">
                     {!! Form::label('name', trans('validation.attributes.backend.access.users.name'), ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) !!}

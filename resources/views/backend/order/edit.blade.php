@@ -1,74 +1,120 @@
 @extends ('backend.layouts.master')
-@include('UEditor::head');
-@section('title', trans('labels.backend.article.management') . ' | ' . trans('labels.backend.article.edit'))
+@section ('title', '订单管理 | 新增订单')
 
 @section('page-header')
     <h1>
-        {{ trans('labels.backend.article.management') }}
-        <small>{{ trans('labels.backend.article.edit') }}</small>
+        订单管理
+        <small>新增订单</small>
     </h1>
 @endsection
 
 @section('content')
-    {!! Form::model($article, ['route' => ['admin.article.update', $article->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH', 'files' => true]) !!}
+    {!! Form::model($order, ['route' => ['admin.order.update', $order->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH', 'files' => true]) !!}
     <div class="box box-success">
-        <div class="box box-header">
-            <h3 class="box-title">{{ trans('labels.backend.article.edit') }}</h3>
+        <div class="box-header with-border">
+            <h3 class="box-title">新增订单</h3>
 
             <div class="box-tools pull-right">
-                @include('backend.article.includes.partials.header-buttons')
+                @include('backend.order.includes.partials.header-buttons')
             </div>
-        </div>
-    </div>
-    <div class="box box-body">
-        <div class="form-group">
-            {!! Form::label('title', trans('validation.attributes.backend.article.title'), ['class' => 'col-lg-2 control-label']) !!}
-            <div class="col-lg-10">
-                {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.article.title')]) !!}
+        </div><!-- /.box-header -->
+
+        <div class="box-body">
+            <div class="form-group">
+                {!! Form::label('transport_type', '航运类型', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::select('transport_type', array('1' => '空运单号', '2' => '海运单号'), '2') !!}
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('abstract', trans('validation.attributes.backend.article.abstract'), ['class' => 'col-lg-2 control-label']) !!}
-            <div class="col-lg-10">
-                {!! Form::textarea('abstract', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.article.abstract')]) !!}
+            <div class="form-group">
+                {!! Form::label('transport_number', '航班号', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('transport_number', null, ['class' => 'form-control', 'placeholder' => '航运单号']) !!}
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('content', trans('validation.attributes.backend.article.content'), ['class' => 'col-lg-2 control-label']) !!}
-            <div class="col-lg-10">
-                <!-- 加载编辑器的容器 -->
-                <script id="container" name="content" type="text/plain">
-                    {!! $article->content->content !!}
-                </script>
+            <div class="form-group">
+                {!! Form::label('order_number', '主单号', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('order_number', null, ['class' => 'form-control', 'placeholder' => '主单号']) !!}
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('image', trans('validation.attributes.backend.article.image'), ['class' => 'col-lg-2 control-label']) !!}
-            <div class="col-lg-5">
-                <img src={{env('IMG_URL').$article->image}} />
+            <div class="form-group">
+                {!! Form::label('weight', '净重', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('weight', null, ['class' => 'form-control', 'placeholder' => '净重']) !!}
+                </div>
             </div>
-            <div class="col-lg-5">
-                {!! Form::file('image', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('author', trans('validation.attributes.backend.article.author'), ['class' => 'col-lg-2 control-label']) !!}
-            <div class="col-lg-10">
-                {!! Form::text('author', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.article.author')]) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('type' , trans('validation.attributes.backend.article.type'), ['class' => 'col-lg-2 control-label']) !!}
-            <div class="col-lg-10">
-                <select name="type" class="form-control">
-                    @foreach ($articleTypes as $type)
-                        @if($type->id == $article->type_id)
-                            <option value="{!! $type->id !!}" selected>{!! $type->name !!}</option>
-                        @endif
+            <div class="form-group">
+                {!! Form::label('express_id' , '境内快递商', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    <select name="express_id" class="form-control">
                         <option value="">{{ trans('labels.general.none') }}</option>
-                        <option value="{!! $type->id !!}">{!! $type->name !!}</option>
-                    @endforeach
-                </select>
+
+                        @foreach ($expresses as $express)
+                            <option value="{!! $express->id !!}">{!! $express->name !!}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('company', '公司名称', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('company', $order->user->company, ['class' => 'form-control', 'placeholder' => '公司名称']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('company_area', '公司地区', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('company_area', $order->user->company_area, ['class' => 'form-control', 'placeholder' => '公司地区']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('express_name', '境内快递商', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('express_name', $order->express->name, ['class' => 'form-control', 'placeholder' => '境内快递商']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('express_name', '税金金额', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('express_name', $order->tax, ['class' => 'form-control', 'placeholder' => '税金金额']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('sub_total', '分单总数', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('sub_total', $order->tax, ['class' => 'form-control', 'placeholder' => '分单总数']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('clearance', '海关放行数', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('clearance', $order->clearance, ['class' => 'form-control', 'placeholder' => '海关放行数']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('inspection', '海关查验数', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('inspection', $order->inspection, ['class' => 'form-control', 'placeholder' => '海关查验数']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('port_state', '到港状态', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::select('port_state', array('1' => '未到港', '2' => '清关中', '3' => '已到港'), $order->port_state) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('declear_state', '报关状态', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::select('declear_state', array('0' => '未报关', '1' => '已报关'), $order->declear_state) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('ported_at', '到岗时间', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                    {!! Form::text('ported_at', $order->ported_at, ['class' => 'form-control', 'placeholder' => '到岗时间']) !!}
+                </div>
             </div>
         </div>
     </div>
@@ -79,17 +125,10 @@
             </div>
 
             <div class="pull-right">
-                <input type="submit" class="btn btn-success btn-xs" value="{{ trans('buttons.general.crud.update') }}" />
+                <input type="submit" class="btn btn-success btn-xs" value="{{ trans('buttons.general.crud.create') }}" />
             </div>
             <div class="clearfix"></div>
         </div><!-- /.box-body -->
     </div><!--box-->
     {!! Form::close() !!}
-    <!-- 实例化编辑器 -->
-    <script type="text/javascript">
-        var ue = UE.getEditor('container');
-        ue.ready(function() {
-            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//此处为支持laravel5 csrf ,根据实际情况修改,目的就是设置 _token 值.
-        });
-    </script>
 @endsection

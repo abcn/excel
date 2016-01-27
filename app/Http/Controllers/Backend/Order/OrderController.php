@@ -64,6 +64,22 @@ class OrderController extends Controller
         }
 
     }
+    public function edit($id)
+    {
+        //获取订单信息
+        $order = $this->orders->with('user')->with('express')->findOrFail($id);
+        //获取快递列表
+        $expresses = OrderExpress::all();
+
+        return view('backend.order.edit',compact('order','expresses'));
+    }
+    public function update($id,Request $request)
+    {
+        $order = $this->orders->findOrFail($id);
+        $order->transport_type = $request->get('transport_type');
+        $order->transport_number = $request->get('transport_number');
+        $order->save();
+    }
     //获取订单数据
     public function data()
     {
