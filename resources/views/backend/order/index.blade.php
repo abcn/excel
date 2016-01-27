@@ -200,13 +200,6 @@
                     e.preventDefault();
                 });
 
-//                $("#search").click(function (){
-//                    oTable.$('input[type="checkbox"]').each(function(){
-//                        if(this.checked){
-//                            alert(this.value);
-//                        }
-//                    });
-//                });
                 // Handle click on "Select all" control
                 $('#example-select-all').on('click', function(){
                     // Check/uncheck all checkboxes in the table
@@ -267,8 +260,9 @@
                     }
                 });
                 $("#validation-errors").show();
-                window.setTimeout(function(){ } ,4000);
-                location.reload();
+                $('#upload_button').removeAttr('disabled');
+//                window.setTimeout(function(){} ,4000);
+//                location.reload();
             }else{
                 //上传成功
                 sweetAlert('上传成功');
