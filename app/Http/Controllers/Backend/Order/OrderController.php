@@ -86,7 +86,7 @@ class OrderController extends Controller
         //获取数据
         $orders = $this->orders->leftJoin('order_express','express_id', '=', 'order_express.id')
             ->leftJoin('users','user_id', '=', 'users.id')
-            ->select('order.*','order_express.name as expressName','users.company','users.company_area');
+            ->select('order.*','order_express.name as expressName','users.company','users.company_area')->orderBy('order.id','desc');
         //设置table
         $datatables = Datatables::of($orders)
             ->editColumn('created_at', function ($orders) {

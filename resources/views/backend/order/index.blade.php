@@ -268,15 +268,9 @@
                 });
                 $("#validation-errors").show();
             }else{
-                swal({
-                    title: '提示',
-                    text:  result.message,
-                    type: "success",
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-                window.setTimeout(function(){ } ,3000);
-                location.reload();
+                //上传成功
+                sweetAlert('上传成功');
+                $('#import').modal('hide')
             }
         }
         </script>
