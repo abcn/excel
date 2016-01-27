@@ -39,7 +39,7 @@ class SubOrderController extends Controller
 
     public function detail($id)
     {
-        $subOrder = $this->subOrders->findOrFail($id);
+        $subOrder = $this->subOrders->with('order')->findOrFail($id);
         return view('backend.order.sub.edit',compact('subOrder','id'));
     }
 
@@ -229,7 +229,7 @@ class SubOrderController extends Controller
                 return array('message'=>"批量派送成功");
             }
         }else{
-            if($this->subOrders->where('id',$id)->update(array('send_state'=>'1','sended_at'=>Carbon::now()))){
+            if($this->subOrders->where('id',$id)->update(array('send_state'=>'1','sended_at'=>Carbon::now(),'express_remark' => $request->get('remark')))){
                 return array('message'=>"派送成功");
             }
         }
@@ -262,7 +262,8 @@ class SubOrderController extends Controller
                 return array('message'=>"批量放行成功");
             }
         }else{
-            if($this->subOrders->where('id',$id)->update(array('clearance_state'=>'2','passed_at'=>Carbon::now()))){
+            //添加备注
+            if($this->subOrders->where('id',$id)->update(array('clearance_state'=>'2','passed_at'=>Carbon::now(),'clear_remark' => $request->get('remark')))){
                 return array('message'=>"放行成功");
             }
         }

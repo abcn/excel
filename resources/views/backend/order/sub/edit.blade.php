@@ -18,9 +18,9 @@
             </div>
         </div>
     </div>
-    <div class="box box-body">
+    <div class="box box-body" style="width: 70%">
         <div class="form-group">
-            {!! Form::label('title', '境内快递上', ['class' => 'col-lg-2 control-label']) !!}
+            {!! Form::label('title', '境内快递商', ['class' => 'col-lg-2 control-label']) !!}
             <div class="col-lg-10">
                 {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => '境内快递商']) !!}
             </div>
@@ -46,13 +46,13 @@
         <div class="form-group">
             {!! Form::label('arrivaled_at', '派送备注', ['class' => 'col-lg-2 control-label']) !!}
             <div class="col-lg-10">
-                {!! Form::textarea('arrivaled_at', $subOrder->sended_remark, ['class' => 'form-control', 'placeholder' => '派送备注']) !!}
+                {!! Form::textarea('arrivaled_at', $subOrder->express_remark, ['class' => 'form-control', 'placeholder' => '派送备注']) !!}
             </div>
         </div>
         <div class="form-group">
             {!! Form::label('id_image', '身份证照片', ['class' => 'col-lg-2 control-label']) !!}
             <div class="col-lg-10">
-                <img src={{env('IMG_URL').$subOrder->id_image}} class="form-control" />
+                <img src={{env('IMG_URL').$subOrder->order->id_image}} class="form-control" />
             </div>
         </div>
         <div class="form-group">

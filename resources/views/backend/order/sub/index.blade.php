@@ -100,26 +100,24 @@
                 </table>
             </div>
             <!-- Modal Import-->
-            <div class="modal fade" id="product" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="remark">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">查看商品</h4>
+                            <h4 class="modal-title" id="myModalLabel">新增</h4>
                         </div>
                         <div class="modal-body">
-                            <table class="table table-striped table-bordered table-hover display nowrap" id="productTable" cellspacing="0" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>名称</th>
-                                    <th>数量</th>
-                                </tr>
-                                </thead>
-                            </table>
+                            <div class="form-group">
+                                <label for="remark">备注信息</label>
+                                <textarea class="form-control" name="remark" id="remark_text" placeholder="备注信息"></textarea>
+                            </div>
+                            <input type="hidden" name="type" id="type"/>
+                            <input type="hidden" name="subOrder_id" id="subOrder_id"/>
                         </div>
-                        <input type="hidden" name="product_id" id="product_id" />
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" id="remark_button">保存</button>
                         </div>
                     </div>
                 </div>
@@ -314,14 +312,46 @@
         }
 
         function check(id){
+
             post_batch('/admin/subOrder/check',id);
         }
         function pass(id){
-            post_batch('/admin/subOrder/pass',id);
+            $('#remark').modal('show');
+            $('#type').val('pass');
+            $('#subOrder_id').val(id);
+            ///post_batch('/admin/subOrder/pass',id);
 
         }
+        $("#remark_button").click(function (){
+            var type = $("#type").val();
+            var id = $("#subOrder_id").val();
+            var remark = $("#remark_text").val();
+            $.ajax({
+                type:'POST',
+                url:'/admin/subOrder/'+ type,
+                data:{id:id,type:type,remark:remark},
+                success: function(result){
+                    //初始化文本
+                    $("#type").val('');
+                    $("#subOrder_id").val('');
+                    $("#remark_text").val('');
+                    swal({
+                        title: '提示',
+                        text:  result.message,
+                        type: "success",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                    window.setTimeout(function(){ } ,3000);
+                    location.reload();
+                }
+            })
+        });
         function send(id){
-            post_batch('/admin/subOrder/send',id);
+            $('#remark').modal('show');
+            $('#type').val('send');
+            $('#subOrder_id').val(id);
+            //post_batch('/admin/subOrder/send',id);
         }
         function arrival(id){
             post_batch('/admin/subOrder/arrival',id);
@@ -371,27 +401,6 @@
                 sweetAlert('上传成功');
                 $('#import').modal('hide')
             }
-        }
-        //显示商品
-        function showProduct(id){
-            $('#product').modal('show');
-
-            $("#product_id").val(id);
-
-            var productId = $("#product_id").val();
-            $('#productTable').DataTable({
-                destroy: true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '/admin/subOrder/'+productId+'/productData',
-                },
-                columns: [
-                    { data: 'name', name: 'name'},
-                    { data: 'count', name: 'count'},
-                ]
-            });
-
         }
         </script>
     @endsection
