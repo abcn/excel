@@ -189,8 +189,8 @@
                             return data ? '已报关' : '未报关';
                         }},
 
-                        { data: 'created_at', name: 'created_at' },
-                        { data: 'updated_at', name: 'updated_at'},
+                        { data: 'ported_at', name: 'ported_at' },
+                        { data: 'decleared_at', name: 'decleared_at'},
                         { data: 'action', name: 'action', orderable: false, searchable: false}
                     ]
                 });
