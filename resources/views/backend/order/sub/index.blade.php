@@ -171,7 +171,7 @@
                             d.mobile  = $('input[name=mobile]').val();
                             d.fw_number  = $('input[name=fw_number]').val();
                             d.id_number  = $('input[name=id_number]').val();
-                            d.clearence_state  = $('select[name=clearence_state]').val();
+                            d.clearance_state  = $('select[name=clearance_state]').val();
                             d.tax_state  = $('select[name=tax_state]').val();
                             d.send_state  = $('select[name=send_state]').val();
                         }
