@@ -260,6 +260,7 @@
                     }
                 });
                 $("#validation-errors").show();
+                $('#upload_button').html('重新上传');
                 $('#upload_button').removeAttr('disabled');
 //                window.setTimeout(function(){} ,4000);
 //                location.reload();

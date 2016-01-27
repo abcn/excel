@@ -45,9 +45,9 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('type' , '境内快递商', ['class' => 'col-lg-2 control-label']) !!}
+                {!! Form::label('express_id' , '境内快递商', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                    <select name="type" class="form-control">
+                    <select name="express_id" class="form-control">
                         <option value="">{{ trans('labels.general.none') }}</option>
 
                         @foreach ($expresses as $express)
