@@ -202,7 +202,20 @@
                             return clearance_state;
                         }},
                         { data: 'tax_amount', name: 'tax_amount'},
-                        { data: 'tax_state', name: 'tax_state'},
+                        { data: 'tax_state',render: function(data,type,row){
+                            var tax_state = '';
+                            switch (data){
+                                case '0':
+                                    tax_state = '免税';
+                                    break;
+                                case '1':
+                                    tax_state = '需缴税';
+                                    break;
+                                default:
+                                    tax_state = '免税';
+                            }
+                            return tax_state;
+                        }},
                         { data: 'send_state',render: function(data,type,row){
                             var send_state = '';
                             switch (data){
