@@ -91,14 +91,24 @@ trait OrderAttribute
      */
     public function getExportButtonAttribute()
     {
-        if(access()->allow('order-export')){
-            return '<a href="'. route('admin.subOrder.export', $this->id) . '" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="导出分单" id="export">导出分单</i></a> ';
+        switch ($this->import_state) {
+            case 0:
+                return '';
+                break;
+            case 1:
+                if(access()->allow('order-export')){
+                    return '<a href="'. route('admin.subOrder.export', $this->id) . '" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="导出分单" id="export">导出分单</i></a> ';
+                }
+                break;
+            default:
+                return '';
         }
+        return '';
     }
 
     /**
      * @return string
-     * 导出分单
+     * 导出身份证
      */
     public function getExportIDButtonAttribute()
     {
@@ -123,14 +133,12 @@ trait OrderAttribute
     public function getDeclearButtonAttribute()
     {
         switch ($this->declear_state) {
-            case 0:
+            case '1':
                 if (access()->allow('reactivate-article')) {
                     return '<a href="' . route('admin.order.declear', [$this->id, 1]) . '" class="btn btn-xs btn-success"><i class="fa fa-play" data-toggle="tooltip" data-placement="top" title="申报">申报</i></a> ';
                 }
-
                 break;
-
-            case 1:
+            case '0':
                 return '';
                 break;
             default:
@@ -147,20 +155,20 @@ trait OrderAttribute
     public function getPortButtonAttribute()
     {
         switch ($this->port_state) {
-            case 1:
+            case '1':
                 if (access()->allow('reactivate-article')) {
                     return '<a href="' . route('admin.order.port', [$this->id, 1]) . '" class="btn btn-xs btn-success"><i class="fa fa-play" data-toggle="tooltip" data-placement="top" title="未到港">未到港</i></a> ';
                 }
 
                 break;
 
-            case 2:
+            case '2':
                 if (access()->allow('reactivate-article')) {
                     return '<a href="' . route('admin.order.clear', [$this->id, 2]) . '" class="btn btn-xs btn-success"><i class="fa fa-play" data-toggle="tooltip" data-placement="top" title="清关中">清关中</i></a> ';
                 }
 
                 break;
-            case 3:
+            case '3':
                 return '';
                 break;
             default:
