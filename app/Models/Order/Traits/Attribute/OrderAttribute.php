@@ -102,9 +102,19 @@ trait OrderAttribute
      */
     public function getExportIDButtonAttribute()
     {
-        if(access()->allow('order-export')){
-            return '<a href="'. route('admin.orderID.export', $this->id) . '" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="导出身份证" id="export">导出身份证</i></a> ';
+        switch ($this->import_state) {
+            case 0:
+                return '';
+                break;
+            case 1:
+                if(access()->allow('order-export')){
+                    return '<a href="'. route('admin.orderID.export', $this->id) . '" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="导出身份证" id="export">导出身份证</i></a> ';
+                }
+                break;
+            default:
+                return '';
         }
+        return '';
     }
 
     /**
@@ -121,9 +131,7 @@ trait OrderAttribute
                 break;
 
             case 1:
-                if (access()->allow('deactivate-article')) {
-                    return '<i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="已申报">已申报</i>';
-                }
+                return '';
                 break;
             default:
                 return '';
@@ -153,9 +161,7 @@ trait OrderAttribute
 
                 break;
             case 3:
-                if (access()->allow('deactivate-article')) {
-                    return '<i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="已到港">已到港</i>';
-                }
+                return '';
                 break;
             default:
                 return '';
