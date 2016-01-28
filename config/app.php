@@ -22,7 +22,7 @@ return [
 	|
 	| The application name for use within the UI of the application
 	*/
-    'name' => '众城系统',
+    'name' => '众诚系统',
 
     /*
     |--------------------------------------------------------------------------
