@@ -4,16 +4,16 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <img src="{!! access()->user()->picture !!}" class="img-circle" alt="User Image" />
-            </div>
-            <div class="pull-left info">
-                <p>{!! access()->user()->name !!}</p>
-                <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('strings.backend.general.status.online') }}</a>
-            </div>
-        </div>
+        {{--<div class="user-panel">--}}
+            {{--<div class="pull-left image">--}}
+                {{--<img src="{!! access()->user()->picture !!}" class="img-circle" alt="User Image" />--}}
+            {{--</div>--}}
+            {{--<div class="pull-left info">--}}
+                {{--<p>{!! access()->user()->name !!}</p>--}}
+                {{--<!-- Status -->--}}
+                {{--<a href="#"><i class="fa fa-circle text-success"></i> {{ trans('strings.backend.general.status.online') }}</a>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
         <!-- search form (Optional) -->
         <form action="#" method="get" class="sidebar-form">
@@ -71,11 +71,6 @@
                     </li>
                 </ul>
             </li>
-
-            <li class="{{ Active::pattern('admin/carousel/*') }}">
-                <a href="{!!url('admin/carousel')!!}"><span>轮播管理</span></a>
-            </li>
-
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

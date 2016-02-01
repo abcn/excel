@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "afb3d2a06d6d0485d78a686cc52e4c0b",
-    "content-hash": "a232de79b2a6ccbb30ec0796ae900aa0",
+    "hash": "0a0b9db4cdc910612dedc86d94845e3a",
+    "content-hash": "1fbb08e66f7fc22cde3b65c19cb80c24",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
-            "version": "3.7.6",
+            "version": "3.7.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/LogViewer.git",
-                "reference": "3632a5b2a2e23250e3ca0f2dd20edbc144cc8cc6"
+                "reference": "4e133d8f35fd748c2bc9a923782a347e82120f49"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/ARCANEDEV/LogViewer/3632a5b2a2e23250e3ca0f2dd20edbc144cc8cc6.zip",
-                "reference": "3632a5b2a2e23250e3ca0f2dd20edbc144cc8cc6",
+                "url": "http://packagist.phpcomposer.com/files/ARCANEDEV/LogViewer/4e133d8f35fd748c2bc9a923782a347e82120f49.zip",
+                "reference": "4e133d8f35fd748c2bc9a923782a347e82120f49",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "phpunit/phpcov": "~2.0",
+                "phpunit/phpcov": "~2.0|~3.0",
                 "phpunit/phpunit": "~4.0|~5.0"
             },
             "type": "library",
@@ -68,20 +68,20 @@
                 "log-viewer",
                 "logviewer"
             ],
-            "time": "2016-01-17 11:24:07"
+            "time": "2016-01-25 11:52:11"
         },
         {
             "name": "arcanedev/support",
-            "version": "3.7.2",
+            "version": "3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/Support.git",
-                "reference": "8e2f81b75701fae396a1a10afeaac55ee615b3e5"
+                "reference": "c48e8256c401088532da229046edae98cfdf2ea0"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/ARCANEDEV/Support/8e2f81b75701fae396a1a10afeaac55ee615b3e5.zip",
-                "reference": "8e2f81b75701fae396a1a10afeaac55ee615b3e5",
+                "url": "http://packagist.phpcomposer.com/files/ARCANEDEV/Support/c48e8256c401088532da229046edae98cfdf2ea0.zip",
+                "reference": "c48e8256c401088532da229046edae98cfdf2ea0",
                 "shasum": ""
             },
             "require": {
@@ -90,7 +90,7 @@
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "phpunit/phpcov": "~2.0",
+                "phpunit/phpcov": "~2.0|~3.0",
                 "phpunit/phpunit": "~4.0|~5.0"
             },
             "type": "library",
@@ -127,7 +127,7 @@
                 "laravel",
                 "support"
             ],
-            "time": "2016-01-17 10:45:30"
+            "time": "2016-01-21 21:31:01"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -984,16 +984,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.2.11",
+            "version": "v5.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e8ad411ac3ca63f532952417156e32d010fcc522"
+                "reference": "6b6255ad7bfbdb721b8d00b09d52b146c5d363d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/laravel/framework/e8ad411ac3ca63f532952417156e32d010fcc522.zip",
-                "reference": "e8ad411ac3ca63f532952417156e32d010fcc522",
+                "url": "http://packagist.phpcomposer.com/files/laravel/framework/6b6255ad7bfbdb721b8d00b09d52b146c5d363d7.zip",
+                "reference": "6b6255ad7bfbdb721b8d00b09d52b146c5d363d7",
                 "shasum": ""
             },
             "require": {
@@ -1108,7 +1108,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-01-22 18:36:05"
+            "time": "2016-01-26 04:15:37"
         },
         {
             "name": "laravel/socialite",
@@ -1166,16 +1166,16 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.2.3",
+            "version": "v5.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "7ec0ca55cab54cc6d331007d86ec068b61f46aad"
+                "reference": "3a312d39ffe37da0f57b602618b61fd07c1fcec5"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/LaravelCollective/html/7ec0ca55cab54cc6d331007d86ec068b61f46aad.zip",
-                "reference": "7ec0ca55cab54cc6d331007d86ec068b61f46aad",
+                "url": "http://packagist.phpcomposer.com/files/LaravelCollective/html/3a312d39ffe37da0f57b602618b61fd07c1fcec5.zip",
+                "reference": "3a312d39ffe37da0f57b602618b61fd07c1fcec5",
                 "shasum": ""
             },
             "require": {
@@ -1216,7 +1216,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
-            "time": "2016-01-20 18:28:21"
+            "time": "2016-01-27 22:29:54"
         },
         {
             "name": "league/flysystem",
@@ -1575,23 +1575,23 @@
         },
         {
             "name": "mtdowling/cron-expression",
-            "version": "v1.0.4",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mtdowling/cron-expression.git",
-                "reference": "fd92e883195e5dfa77720b1868cf084b08be4412"
+                "reference": "c9ee7886f5a12902b225a1a12f36bb45f9ab89e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/mtdowling/cron-expression/fd92e883195e5dfa77720b1868cf084b08be4412.zip",
-                "reference": "fd92e883195e5dfa77720b1868cf084b08be4412",
+                "url": "http://packagist.phpcomposer.com/files/mtdowling/cron-expression/c9ee7886f5a12902b225a1a12f36bb45f9ab89e5.zip",
+                "reference": "c9ee7886f5a12902b225a1a12f36bb45f9ab89e5",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "~4.0|~5.0"
             },
             "type": "library",
             "autoload": {
@@ -1615,7 +1615,7 @@
                 "cron",
                 "schedule"
             ],
-            "time": "2015-01-11 23:07:46"
+            "time": "2016-01-26 21:23:30"
         },
         {
             "name": "nesbot/carbon",
@@ -2579,16 +2579,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25"
+                "reference": "1289d16209491b584839022f29257ad859b8532d"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-mbstring/49ff736bd5d41f45240cec77b44967d76e0c3d25.zip",
-                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25",
+                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-mbstring/1289d16209491b584839022f29257ad859b8532d.zip",
+                "reference": "1289d16209491b584839022f29257ad859b8532d",
                 "shasum": ""
             },
             "require": {
@@ -2600,7 +2600,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2634,20 +2634,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-20 09:19:13"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/polyfill-php56",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php56.git",
-                "reference": "e2e77609a9e2328eb370fbb0e0d8b2000ebb488f"
+                "reference": "4d891fff050101a53a4caabb03277284942d1ad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-php56/e2e77609a9e2328eb370fbb0e0d8b2000ebb488f.zip",
-                "reference": "e2e77609a9e2328eb370fbb0e0d8b2000ebb488f",
+                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-php56/4d891fff050101a53a4caabb03277284942d1ad9.zip",
+                "reference": "4d891fff050101a53a4caabb03277284942d1ad9",
                 "shasum": ""
             },
             "require": {
@@ -2657,7 +2657,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2690,20 +2690,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-12-18 15:10:25"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/polyfill-util",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-util.git",
-                "reference": "4271c55cbc0a77b2641f861b978123e46b3da969"
+                "reference": "8de62801aa12bc4dfcf85eef5d21981ae7bb3cc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-util/4271c55cbc0a77b2641f861b978123e46b3da969.zip",
-                "reference": "4271c55cbc0a77b2641f861b978123e46b3da969",
+                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-util/8de62801aa12bc4dfcf85eef5d21981ae7bb3cc4.zip",
+                "reference": "8de62801aa12bc4dfcf85eef5d21981ae7bb3cc4",
                 "shasum": ""
             },
             "require": {
@@ -2712,7 +2712,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2742,7 +2742,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2015-11-04 20:28:58"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/process",
@@ -3204,6 +3204,56 @@
                 "webprofiler"
             ],
             "time": "2015-12-22 06:22:38"
+        },
+        {
+            "name": "chumper/zipper",
+            "version": "0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Chumper/Zipper.git",
+                "reference": "313e364259398557bdcc2f68e6ff20d71aaea811"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://packagist.phpcomposer.com/files/Chumper/Zipper/313e364259398557bdcc2f68e6ff20d71aaea811.zip",
+                "reference": "313e364259398557bdcc2f68e6ff20d71aaea811",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "5.x",
+                "illuminate/support": "5.x",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Chumper\\Zipper": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Plaschke",
+                    "email": "github@nilsplaschke.de",
+                    "homepage": "http://nilsplaschke.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This is a little neat helper for the ZipArchive methods with handy functions",
+            "homepage": "http://github.com/Chumper/zipper",
+            "keywords": [
+                "archive",
+                "laravel",
+                "zip"
+            ],
+            "time": "2015-02-16 11:38:11"
         },
         {
             "name": "doctrine/instantiator",

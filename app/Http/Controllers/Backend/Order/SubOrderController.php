@@ -71,51 +71,62 @@ class SubOrderController extends Controller
     //获取分单数据
     public function data($id,Request $request)
     {
-        //获取数据
+//        //获取数据
+//
+//        //设置table
+//        $datatables = Datatables::of($articles)
+//            ->editColumn('created_at', function ($articles) {
+//                return $articles->created_at ? with(new Carbon($articles->created_at))->format('m/d/Y') : '';
+//            })
+//            ->editColumn('updated_at', '{!! $updated_at->diffForHumans() !!}')
+//            //添加按钮
+//            ->addColumn('action', function ($articles) {
+//                return $articles->action_buttons;
+//            });
+//        //查询国外单号
+//        if ($fw_number = $datatables->request->get('fw_number')) {
+//            $datatables->where('fw_number', "$fw_number");
+//        }
+//        //查询手机号码
+//        if ($mobile = $datatables->request->get('mobile')) {
+//            $datatables->where('mobile', "$mobile");
+//        }
+//        //查询身份证号
+//        if ($id_number = $datatables->request->get('id_number')) {
+//            $datatables->where('id_number', "$id_number");
+//        }
+//        //查询国派送状态
+//        if ($send_state = $datatables->request->get('send_state')) {
+//            $datatables->where('send_state', "$send_state");
+//        }
+//        //查询缴税状态
+//        if ($tax_state = $datatables->request->get('tax_state')) {
+//            $datatables->where('tax_state', "$tax_state");
+//        }
+//        //查询缴税状态
+//        if ($clearance_state = $datatables->request->get('clearance_state')) {
+//            $datatables->where('clearance_state', "$clearance_state");
+//        }
+//
+//        //查询资讯类型
+//        if ($name = $datatables->request->get('name')) {
+//            $datatables->where('name', 'like', "$name%");
+//        }
+//
+//        return $datatables->make(true);
         $orderId = $id;
-        //$articles = $this->orders->getJoin();
-        $articles = $this->subOrders->with('product')->where('order_id',$orderId);
-        //设置table
-        $datatables = Datatables::of($articles)
-            ->editColumn('created_at', function ($articles) {
-                return $articles->created_at ? with(new Carbon($articles->created_at))->format('m/d/Y') : '';
-            })
-            ->editColumn('updated_at', '{!! $updated_at->diffForHumans() !!}')
-            //添加按钮
-            ->addColumn('action', function ($articles) {
-                return $articles->action_buttons;
-            });
-        //查询国外单号
-        if ($fw_number = $datatables->request->get('fw_number')) {
-            $datatables->where('fw_number', "$fw_number");
-        }
-        //查询手机号码
-        if ($mobile = $datatables->request->get('mobile')) {
-            $datatables->where('mobile', "$mobile");
-        }
-        //查询身份证号
-        if ($id_number = $datatables->request->get('id_number')) {
-            $datatables->where('id_number', "$id_number");
-        }
-        //查询国派送状态
-        if ($send_state = $datatables->request->get('send_state')) {
-            $datatables->where('send_state', "$send_state");
-        }
-        //查询缴税状态
-        if ($tax_state = $datatables->request->get('tax_state')) {
-            $datatables->where('tax_state', "$tax_state");
-        }
-        //查询缴税状态
-        if ($clearance_state = $datatables->request->get('clearance_state')) {
-            $datatables->where('clearance_state', "$clearance_state");
-        }
-
-        //查询资讯类型
-        if ($name = $datatables->request->get('name')) {
-            $datatables->where('name', 'like', "$name%");
-        }
-
-        return $datatables->make(true);
+        $limit = $this->request->get('limit');
+        $offset = $this->request->get('offset');
+        $sort = $this->request->get('sort');
+        $order = $this->request->get('order');
+        $articles = $this->subOrders->with('product')
+            ->where('order_id',$orderId)
+            ->skip($offset)
+            ->take($limit)->get();
+        $count    = $this->subOrders->with('product')
+            ->where('order_id',$orderId)
+            ->count();
+        return array('total' => $count,'rows' => $articles);
     }
 
     /**
@@ -131,6 +142,9 @@ class SubOrderController extends Controller
         $order = $this->orders->findOrFail($order_id);
         //默认返回无图片上传错误
         $data = array('success' => false,'errors' => array('没有上传文件'));
+        $image = $request->file('id_image');
+
+        dd();
         //检查身份证是否上传
         if($request->hasFile('id_image')){
             $data = uploadID($request->file('id_image'));

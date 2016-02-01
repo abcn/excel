@@ -93,39 +93,46 @@ class OrderController extends Controller
     //获取订单数据
     public function data()
     {
-        //获取数据
-        $orders = $this->orders->leftJoin('order_express','express_id', '=', 'order_express.id')
-            ->leftJoin('users','user_id', '=', 'users.id')
-            ->select('order.*','order_express.name as expressName','users.company','users.company_area')->orderBy('order.id','desc');
-        //设置table
-        $datatables = Datatables::of($orders)
-            ->editColumn('created_at', function ($orders) {
-                return $orders->created_at ? with(new Carbon($orders->created_at))->format('m/d/Y') : '';
-            })
-            ->editColumn('updated_at', '{!! $updated_at->diffForHumans() !!}')
-            //添加按钮
-            ->addColumn('action', function ($orders) {
-                return $orders->action_buttons;
-            });
         //查询公司名称
-        if ($company = $datatables->request->get('company')) {
-            $datatables->where('company', 'like', "$company%");
-        }
+//        if ($company = $datatables->request->get('company')) {
+//            $datatables->where('company', 'like', "$company%");
+//        }
+//
+//        //查询主单号
+//        if ($order_number = $datatables->request->get('order_number')) {
+//            $datatables->where('order_number', "$order_number");
+//        }
+//        //查询航运类型
+//        if ($transport_type = $datatables->request->get('transport_type')) {
+//            $datatables->where('transport_type', "$transport_type");
+//        }
+//        //查询航运单号
+//        if ($transport_number = $datatables->request->get('transport_number')) {
+//            $datatables->where('transport_number', "$transport_number");
+//        }
+        $limit = $this->request->has('limit') ? $this->request->get('limit') : 10;
+        $offset = $this->request->has('offset') ? $this->request->get('offset') : 0;
+        $sort = $this->request->has('sort') ? $this->request->get('sort') : 'order.created_at';
+        $order = $this->request->has('order') ? $this->request->get('order') : 'desc';
+        //搜索参数获取
+        $query = $this->orders
+        ->leftJoin('order_express','express_id', '=', 'order_express.id')
+        ->leftJoin('users','user_id', '=', 'users.id')
+        ->select('order.*','order_express.name as expressName','users.company','users.company_area')
+        ->orderBy($sort,$order);
 
-        //查询主单号
-        if ($order_number = $datatables->request->get('order_number')) {
-            $datatables->where('order_number', "$order_number");
+        if($this->request->has('transport_type')){
+            $query->where('transport_type',$this->request->get('transport_type'));
         }
-        //查询航运类型
-        if ($transport_type = $datatables->request->get('transport_type')) {
-            $datatables->where('transport_type', "$transport_type");
+        if($this->request->has('company')){
+            $company = $this->request->get('company');
+            $query->where('users.company','like',"$company%");
         }
-        //查询航运单号
-        if ($transport_number = $datatables->request->get('transport_number')) {
-            $datatables->where('transport_number', "$transport_number");
-        }
-
-        return $datatables->make(true);
+        $total = $query->count();
+        $orders  = $query
+            ->skip($offset)
+            ->take($limit)->get();
+        return array('total' => $total, 'rows' => $orders);
     }
 
     /**

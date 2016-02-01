@@ -159,3 +159,10 @@ if (! function_exists('uploadImage')) {
         return $response->message;
     }
 }
+
+if (! function_exists('bower')){
+    function bower($path)
+    {
+        return asset('bower_components/'.$path);
+    }
+}
