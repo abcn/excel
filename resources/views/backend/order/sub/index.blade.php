@@ -17,23 +17,62 @@
                 @include('backend.order.includes.partials.header-buttons')
             </div>
         </div>
+        {{--搜索--}}
         <div id="toolbar" class="btn-group">
-            <button id="button" class="btn btn-default">getAllSelections</button>
-            <button type="button" id="add" class="btn btn-default">
-                <i class="glyphicon glyphicon-plus"></i>
-            </button>
-            <button type="button" class="btn btn-default">
-                <i class="glyphicon glyphicon-heart"></i>
-            </button>
-            <button type="button" class="btn btn-default">
-                <i class="glyphicon glyphicon-trash"></i>
-            </button>
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <input name="fw_number" class="form-control" type="text" placeholder="国外单号">
+                </div>
+                <div class="form-group">
+                    <input name="name" class="form-control" type="text" placeholder="姓名">
+                </div>
+                <div class="form-group">
+                    <input name="ID_number" class="form-control" type="text" placeholder="身份证号">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="transport_type">
+                        <option value="">航运类型</option>
+                        <option value="1">海运类型</option>
+                        <option value="2">空运类型</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="clearance_state" class="form-control">
+                        <option value="">放行状态</option>
+                        <option value="0">未放行</option>
+                        <option value="1">查验</option>
+                        <option value="2">放行</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="tax_state" class="form-control">
+                        <option value="">缴税状态</option>
+                        <option value="0">免税</option>
+                        <option value="1">需缴税</option>
+                        <option value="2">已缴税</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="send_state" class="form-control">
+                        <option value="">派送状态</option>
+                        <option value="0">未派送</option>
+                        <option value="1">已派送</option>
+                        <option value="2">已签收</option>
+                    </select>
+                </div>
+                <button id="ok" type="submit" class="btn btn-default">搜索</button>
+                <button id="pass" type="button" class="btn btn-primary">批量海关放行</button>
+                <button type="button" class="btn btn-primary" id="check">批量海关查验</button>
+                <button type="button" class="btn btn-primary" id="send">批量派送</button>
+                <button type="button" class="btn btn-primary" id="arrival">批量签收</button>
+            </div>
         </div>
+        {{--搜索--}}
         <div class="box-body">
             <table id="table"
                    data-toggle="table"
-                   data-search="true"
-                   data-sort-name="order_number"
+                   data-cookie="true"
+                   data-cookie-id-table="subOrder"
                    data-sort-order="desc"
                    data-show-refresh="true"
                    data-show-toggle="true"
@@ -42,7 +81,14 @@
                    data-toolbar="#toolbar"
                    data-side-pagination="server"
                    data-pagination="true"
-                   data-page-list="[5, 10, 20, 50, 100, 200]">
+                   data-page-size="500"
+                   data-page-list="[500, 1000]"
+                   data-pagination-first-text="第一页"
+                   data-pagination-pre-text="上一页"
+                   data-pagination-next-text="下一页"
+                   data-pagination-last-text="最后一页"
+                   data-url="{{route('order.subData',$orderId)}}",
+                   data-query-params="getQueryParams">
                 <thead>
                 <tr>
                     <th data-field="state" data-checkbox="true"></th>
@@ -52,13 +98,13 @@
                     <th data-field="mobile">电话</th>
                     <th data-field="id_number">省份证/护照号</th>
                     <th data-field="address">地址</th>
-                    <th data-field="">邮编</th>
-                    <th>分单计费重量</th>
-                    <th>放行状态</th>
-                    <th>缴税金额</th>
-                    <th>缴税状态</th>
-                    <th>派送状态</th>
-                    <th>操作</th>
+                    <th data-field="zip_code">邮编</th>
+                    <th data-field="weight">分单计费重量</th>
+                    <th data-filed="clearance_state" data-formatter="clearanceState">放行状态</th>
+                    <th data-field="tax_amount">缴税金额</th>
+                    <th data-field="tax_state" data-formatter="taxState">缴税状态</th>
+                    <th data-field="send_state" data-formatter="sendState">派送状态</th>
+                    <th data-field="action" data-formatter="actionFormatter">操作</th>
                 </tr>
                 </thead>
             </table>
@@ -75,12 +121,76 @@
         var $table = $('#table'),
             $button = $('#button');
         $table.bootstrapTable({
-            url: '{{route('order.subData',$orderId)}}'
+
         });
         //获取所有选中选项
         function getIdSelections() {
             return $.map($table.bootstrapTable('getSelections'), function (row) {
                 return row.id
+            });
+        }
+        //返回搜索参数值
+        function getQueryParams(params) {
+            $('#toolbar').find('input[name]').each(function () {
+                params[$(this).attr('name')] = $(this).val();
+            });
+            $('#toolbar').find('select[name]').each(function () {
+                params[$(this).attr('name')] = $(this).val();
+            });
+            return params; // body data
+        }
+        //批量操作 放行
+        $("#pass").click(function (){
+            var pass = getIdSelections();
+            if(pass == ''){
+                sweetAlert("批量放行失败", "未选中任何分单!", "error");
+            }else{
+                post_batch('{{route('admin.subOrder.pass')}}',pass);
+            }
+        });
+        //批量操作 派送
+        $("#send").click(function (){
+            var send = getIdSelections();
+            if(send == ''){
+                sweetAlert("批量派送失败", "未选中任何分单!", "error");
+            }else{
+                post_batch('{{route('admin.subOrder.send')}}',send);
+            }
+
+        });
+        //批量操作 查验
+        $("#check").click(function (){
+            var check = getIdSelections();
+            if(check == ''){
+                sweetAlert("批量查验失败", "未选中任何分单!", "error");
+            }else{
+                post_batch('{{route('admin.subOrder.check')}}',check);
+            }
+        });
+        //获取所有选中选项
+        function getIdSelections() {
+            return $.map($table.bootstrapTable('getSelections'), function (row) {
+                return row.id
+            });
+        }
+        //批量操作ajax请求函数
+        function post_batch(url,data){
+            $.ajax({
+                type:'POST',
+                url: url,
+                data: {id:data},
+                success: function(result){
+                    swal({
+                        title: '提示',
+                        text:  result.message,
+                        type: "success",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                    window.setTimeout(function(){ } ,3000);
+                    location.reload();
+                    //location.reload();
+                }
             });
         }
         function clearanceState(value) {
@@ -100,32 +210,41 @@
             }
             return clearance_state;
         }
-        function portState(value) {
-            var port_state = '';
+        function sendState(value) {
+            var send_state = '';
             switch (value){
+                case '0':
+                    send_state = '未派送';
+                    break;
                 case '1':
-                    port_state = '未到港';
+                    send_state = '已派送';
                     break;
                 case '2':
-                    port_state = '清关中';
-                    break;
-                case '3':
-                    port_state = '已到港';
+                    send_state = '已签收';
                     break;
                 default:
-                    port_state = '未到港';
+                    send_state = '未派送';
             }
-            return port_state;
+            return send_state;
         }
-        function declearState(value) {
-            return value ? '已报关' : '未报关';
+        function taxState(value) {
+            var tax_state = '';
+            switch (value){
+                case '0':
+                    tax_state = '免税';
+                    break;
+                case '1':
+                    tax_state = '需缴税';
+                    break;
+                default:
+                    tax_state = '免税';
+            }
+            return tax_state;
         }
         function actionFormatter(value, row, index) {
-            if(row.import_state == 1){
-                return '<a href="order/'+row['id']+'/sub" class="btn btn-xs btn-success"><i class="fa fa-play" data-toggle="tooltip" data-placement="top" title="查看分单">查看分单</i></a></i>';
-            }
-            return '<a href="order/'+row['id']+'/sub" class="btn btn-xs btn-success"><i class="fa fa-play" data-toggle="tooltip" data-placement="top" title="导入">导入</i></a></i>';
-
+            var delete_button = '<a href="order/'+row['id']+'/destroy" data-method="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="删除">删除</i></a>';
+            var detail_button = '<a href="/admin/subOrder/'+row['id']+'/detail" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="查看详情">查看详情</i></a> ';
+            return detail_button + delete_button;
         }
     </script>
 @endsection

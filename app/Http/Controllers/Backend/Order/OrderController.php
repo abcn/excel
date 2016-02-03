@@ -10,6 +10,8 @@ namespace App\Http\Controllers\Backend\Order;
 
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ImportExcel;
+use App\Jobs\ZipArchive;
 use App\Models\Order\Order;
 use App\Models\Order\OrderExpress;
 use App\Models\Order\OrderProduct;
@@ -93,23 +95,6 @@ class OrderController extends Controller
     //获取订单数据
     public function data()
     {
-        //查询公司名称
-//        if ($company = $datatables->request->get('company')) {
-//            $datatables->where('company', 'like', "$company%");
-//        }
-//
-//        //查询主单号
-//        if ($order_number = $datatables->request->get('order_number')) {
-//            $datatables->where('order_number', "$order_number");
-//        }
-//        //查询航运类型
-//        if ($transport_type = $datatables->request->get('transport_type')) {
-//            $datatables->where('transport_type', "$transport_type");
-//        }
-//        //查询航运单号
-//        if ($transport_number = $datatables->request->get('transport_number')) {
-//            $datatables->where('transport_number', "$transport_number");
-//        }
         $limit = $this->request->has('limit') ? $this->request->get('limit') : 10;
         $offset = $this->request->has('offset') ? $this->request->get('offset') : 0;
         $sort = $this->request->has('sort') ? $this->request->get('sort') : 'order.created_at';
@@ -128,7 +113,20 @@ class OrderController extends Controller
             $company = $this->request->get('company');
             $query->where('users.company','like',"$company%");
         }
+        if($this->request->has('company_area')){
+            $company_area = $this->request->get('company_area');
+            $query->where('users.company_area','like',"$company_area%");
+        }
+        if($this->request->has('transport_number')){
+            $transport_number = $this->request->get('transport_number');
+            $query->where('order.transport_number',"$transport_number");
+        }
+        if($this->request->has('order_number')){
+            $order_number = $this->request->get('order_number');
+            $query->where('order.order_number',"$order_number");
+        }
         $total = $query->count();
+        //
         $orders  = $query
             ->skip($offset)
             ->take($limit)->get();
@@ -146,19 +144,6 @@ class OrderController extends Controller
         //获取主单号
         $order_id = $request->get('order_id');
         $order = $this->orders->findOrFail($order_id);
-        //默认返回无图片上传错误
-        $data = array('success' => false,'errors' => array('没有上传文件'));
-        //检查身份证是否上传
-        if($request->hasFile('id_image')){
-            $data = uploadID($request->file('id_image'));
-            //检查文件是否已存在 插入数据库
-            //替换身份证图片
-            $order->id_image = $data['filename'];
-            if(!$order->save()){
-                //身份证上传失败
-                return array('success' => false,'errors' => array('身份证上传失败'));
-            }
-        }
         if($request->hasFile('sub_order')){
             $data = uploadExcel($request->file('sub_order'));
             //保存excel文件地址到数据库
@@ -167,66 +152,30 @@ class OrderController extends Controller
                 //身份证上传失败
                 return array('success' => false,'errors' => array('分单文件上传失败'));
             }
-            try{
-                //解析文件 录入数据库
-                Excel::filter('chunk')->selectSheets('Sheet1')->load($data['filename'])->chunk(300, function($results) use ($order_id)
-                {
-                    foreach($results as $row)
-                    {
-                        if($row['序号'] != null){
-                            $subOrder = new SubOrder();
-                            $subOrder->order_id = $order_id;
-                            $subOrder->excel_id = (int)$row['序号'];
-                            $subOrder->fw_number = $row['国外运单号'];
-                            $subOrder->name = $row['姓名'];
-                            $subOrder->mobile = $row['电话'];
-                            $subOrder->address = $row['地址'];
-                            $subOrder->zip_code = $row['邮编'];
-                            $subOrder->weight = $row['重量'];
-                            $subOrder->id_number = $row['身份证号'];
-                            try {
-                                $subOrder->save();
-                            }catch (\Exception $exception){
-                                return array('success' => false,'errors' => array($exception->getMessage()));
-                            }
-                            //存入订单产品
-                            $product = new OrderProduct();
-                            $product->sub_order_id = $subOrder->id;
-                            $product->name = $row['品名'];
-                            $product->count = $row['数量'];
-                            try {
-                                $product->save();
-                            }catch (\Exception $exception){
-                                return array('success' => false,'errors' => array($exception->getMessage()));
-                            }
-                        }else{
-                            //存入子订单
-                            $subOrder = SubOrder::where('excel_id',(int)$row['子序号'])->where('order_id',$order_id)->first();
-                            //TODO 检查子订单是否存在
-                            //存入订单产品
-                            $product = new OrderProduct();
-                            $product->sub_order_id = $subOrder['id'];
-                            $product->name = $row['品名'];
-                            $product->count = $row['数量'];
-                            try {
-                                $product->save();
-                            }catch (\Exception $exception){
-                                return array('success' => false,'errors' => array($exception->getMessage()));
-                            }
-                        }
-                    }
-                });
-            }catch (\Exception $e){
-                return array('success' => false,'errors' => array($e->getMessage()));
-            }
-            //获取分单数量
-            $sub_total = SubOrder::where('order_id',$order_id)->count();
+            //将解析文件 加入至队列
+            $job_excel = new ImportExcel($order);
+            $this->dispatch($job_excel);
             //变更订单导入状态
             $order->import_state = 1;
-            $order->sub_total = $sub_total;
             $order->save();
         }
-
+        //默认返回无图片上传错误
+        $data = array('success' => false,'errors' => array('没有上传文件'));
+        //检查身份证是否上传
+        if($request->hasFile('id_image')){
+            $data = uploadID($request->file('id_image'));
+            //检查文件是否已存在 插入数据库
+            //替换身份证图片
+            $order->id_image = $data['filename'];
+            $order->id_image_dir = $data['extractDir'];
+            if(!$order->save()){
+                //身份证上传失败
+                return array('success' => false,'errors' => array('身份证上传失败'));
+            }
+            //将解压文件任务添加到队列
+            $job = (new ZipArchive($order,$data['extractDir']))->delay(5);
+            $this->dispatch($job);
+        }
         return $data;
         //检查xlsx文件
         //检查身份证照片

@@ -107,7 +107,8 @@ if (! function_exists('uploadExcel')) {
 }
 //上传身份证
 if (! function_exists('uploadID')) {
-    function uploadID($file,$allow = ["png", "jpg", "gif"])
+
+    function uploadID($file,$allow = ["zip", "rar"])
     {
         if ($file) {
             $allowed_extensions = $allow;
@@ -122,6 +123,7 @@ if (! function_exists('uploadID')) {
             $file->move($destinationPath, $safeName);
             $data['success'] = true;
             $data['filename'] = $folderName .'/'. $safeName;
+            $data['extractDir'] = $folderName;
         } else {
             $data['success'] = false;
             $data['error'] = 'Error while uploading file';
